@@ -61,6 +61,23 @@ public class SocketPlayer extends Player {
 			}
 		}
 	}
+	
+	public static void closeSocket(){
+	    
+	    if (clientSocket != null)
+	    {
+	      try {
+	        clientSocketInput.close();
+	        clientSocketOutput.close();
+	        if (clientSocket != null)
+	        	clientSocket.close();
+	        if (serverSocket != null)
+	        	serverSocket.close();
+	      } catch (IOException e) {
+	        e.printStackTrace();
+	      }
+	    }
+	  }
 
 	public static void sendToSocketPlayer(String msg) {
 		clientSocketOutput.println(msg);

@@ -8,28 +8,16 @@ import com.fhtw.mes1.java_embedded.battleship.lib.IBattleShipFactory;
 
 public class HorizontalBattleShipFactory implements IBattleShipFactory {
 
-  @Override
-  public IBattleShip create(String[] initStringElems) throws BattleShipInstantiationFailed {
-    
-    String leftUpperCorner = initStringElems[0];
-    Coordinate coordinateLeftUpperCorner;
-    try {
-      coordinateLeftUpperCorner = new Coordinate(leftUpperCorner);
-    } catch (CoordinateException e) {
-      throw new BattleShipInstantiationFailed("Invalid left upper corner coordinate: " + e.getMessage());
-    }
-    
-    String battleShipName = initStringElems[2];
-    
-    try
-    {
-      int shipLen = Integer.parseInt(initStringElems[3]);
-      return new HorizontalBattleShip(coordinateLeftUpperCorner, battleShipName, shipLen);
-    }
-    catch (NumberFormatException ex)
-    {
-      throw new BattleShipInstantiationFailed("Invalid ship length!");
-    }
-  }
-
+	@Override
+	public IBattleShip create(String[] initStringElems) throws BattleShipInstantiationFailed {
+		try {
+			return new HorizontalBattleShip(new Coordinate(initStringElems[0]), initStringElems[2],
+					Integer.parseInt(initStringElems[3]));
+		} catch (CoordinateException e) {
+			throw new BattleShipInstantiationFailed(
+					"Coordinates of '" + initStringElems[2] + "' are wrong: " + e.getMessage());
+		} catch (NumberFormatException ex) {
+			throw new BattleShipInstantiationFailed("Please check the length of your ship '" + initStringElems[2]);
+		}
+	}
 }

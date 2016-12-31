@@ -149,6 +149,10 @@ public class MyMain {
 						SocketPlayer.sendToSocketPlayer(
 								String.format("Congratulations, " + player.getName() + "! You bombed all ships!"));
 						SocketPlayer.sendToSocketPlayer(String.format("%s won the game!", game.getWinnerName()));
+						SocketPlayer.sendToSocketPlayer(
+								String.format("\n\n ...stroke return to quit the game...\n\n"));
+						SocketPlayer.readFromSocketPlayer();
+						SocketPlayer.closeSocket();
 					}
 					return;
 				default:
@@ -162,7 +166,15 @@ public class MyMain {
 			System.err.println(e.getMessage());
 		} catch (AddBattleFieldException e) {
 			System.err.println(e.getMessage());
+			if(player2 instanceof SocketPlayer){
+				SocketPlayer.closeSocket();
+			}
 			return;
+		}
+		finally{
+			if(player2 instanceof SocketPlayer){
+				SocketPlayer.closeSocket();
+			}
 		}
 	}
 

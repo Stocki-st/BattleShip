@@ -10,60 +10,42 @@ import com.fhtw.mes1.java_embedded.battleship.lib.ICoordinate;
 
 public class HorizontalBattleShip implements IBattleShip {
 
-  private String name;
-  private int shipLength;
-  private ICoordinate leftUpperCorner;
-  private HashMap<ICoordinate, Boolean> shipCoordinates;
-  
-  public HorizontalBattleShip(ICoordinate leftUpper, String name, int shipLen) {
-    this.name = name;
-    this.shipLength = shipLen;
-    this.leftUpperCorner = leftUpper;
-    
-    shipCoordinates = new HashMap<ICoordinate, Boolean>();
-    
-    initPossibleShipCoordinates();
-  }
+	private String name;
+	private int shipLen;
+	private ICoordinate leftUpperCorner;
+	private HashMap<ICoordinate, Boolean> shipMap;
 
-  private void initPossibleShipCoordinates() {
-    // init possible BattleShip Coordinates 
-    shipCoordinates.put(leftUpperCorner, false);
-    for (int x = 1; x < this.shipLength; x++) {
-      shipCoordinates.put(new Coordinate(leftUpperCorner.getXNr() + x, leftUpperCorner.getYNr()), false);
-    }
-  }
-  
-  @Override
-  public String getName() {
-    return name;
-  }
-  
-  @Override
-  public boolean isShipDestroyed() {
-    return shipCoordinates.entrySet().stream().allMatch(entry -> entry.getValue());
-  }
-  
-  @Override
-  public boolean isHit(ICoordinate leftUpperCorner, ICoordinate guess) {
-    // NOTE: ignore leftUpperCorner parameter here!
-    // leftUpperCorner has already been passed to the ctor and should never change again
-    if (this.leftUpperCorner == null)
-    {
-      this.leftUpperCorner = leftUpperCorner;
-      initPossibleShipCoordinates();
-    }
-    
-    Optional<Entry<ICoordinate, Boolean>> guessEntry = shipCoordinates.entrySet().stream()
-        .filter(entry -> entry.getKey().getXNr() == guess.getXNr() && entry.getKey().getYNr() == guess.getYNr()).findFirst();
-    
-    if (guessEntry.isPresent())
-    {
-      guessEntry.get().setValue(true);
-      return true;
-    }
-    else
-    {
-      return false;
-    }
-  }
+	public HorizontalBattleShip(ICoordinate leftUpper, String name, int shipLen) {
+		this.name = name;
+		this.shipLen = shipLen;
+		this.leftUpperCorner = leftUpper;
+		shipMap = new HashMap<ICoordinate, Boolean>();
+
+		for (int x = 0; x < this.shipLen; x++) {
+			shipMap.put(new Coordinate(leftUpperCorner.getXNr() + x, leftUpperCorner.getYNr()), false);
+		}
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public boolean isShipDestroyed() {
+		return shipMap.entrySet().stream().allMatch(entry -> entry.getValue());
+	}
+
+	@Override
+	public boolean isHit(ICoordinate leftUpperCorner, ICoordinate guess) {
+		Optional<Entry<ICoordinate, Boolean>> guessedCoordinate = shipMap.entrySet().stream()
+				.filter(entry -> entry.getKey().getXNr() == guess.getXNr() && entry.getKey().getYNr() == guess.getYNr())
+				.findFirst();
+		if (guessedCoordinate.isPresent()) {
+			guessedCoordinate.get().setValue(true);
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
