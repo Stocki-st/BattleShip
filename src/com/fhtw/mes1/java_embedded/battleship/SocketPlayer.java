@@ -51,7 +51,6 @@ public class SocketPlayer extends Player {
 	 * @throws IOException
 	 */
 	public static void createSocket() throws IOException {
-		// http://docs.oracle.com/javase/tutorial/networking/sockets/clientServer.html
 		serverSocket = new ServerSocket(getPort());
 		clientSocket = serverSocket.accept();
 

@@ -10,12 +10,25 @@ import com.fhtw.mes1.java_embedded.battleship.Exceptions.AddBattleFieldException
 import com.fhtw.mes1.java_embedded.battleship.lib.BattleShipInstantiationFailed;
 import com.fhtw.mes1.java_embedded.battleship.lib.ICoordinate;
 
+/** main class of the battlehip game
+ * @author stocki
+ */
 public class MyMain {
 
+	
 	private enum GameStates {
-		SETUP, RUNNING, WON
+		SETUP, RUNNING, WON //game states
 	}
 
+	/**
+	 * main loop of the battleship game
+	 * @param args
+	 * @throws BattleShipGameException
+	 * @throws BattleShipInstantiationFailed
+	 * @throws CoordinateException
+	 * @throws AddShipException
+	 * @throws AddBattleFieldException
+	 */
 	public static void main(String[] args) throws BattleShipGameException, BattleShipInstantiationFailed,
 			CoordinateException, AddShipException, AddBattleFieldException {
 
@@ -32,6 +45,7 @@ public class MyMain {
 					System.out.println("\nPlayer 1 Setup:");
 					System.out.println("What's the name of Player 1?\nName: >");
 					String namePlayer1 = inputReader.readLine();
+					// read in config file and setup player
 					player1 = new ConsolePlayer(namePlayer1,
 							new BattleField(game.getFieldSizeX(), game.getFieldSizeY()));
 					player1.loadShipMap("Player1.txt");
@@ -42,6 +56,7 @@ public class MyMain {
 					String namePlayer2 = inputReader.readLine();
 					System.out.println("Select Player Type: weather 'C' for Console or 'R' for Remote");
 
+					//check if player 2 plays on console or via socket
 					String type = "";
 					while (true) {
 						type = inputReader.readLine();
@@ -61,14 +76,12 @@ public class MyMain {
 					}
 					player2.loadShipMap("Player2.txt");
 					game.setPlayer2(player2);
-
 					if (player2 instanceof SocketPlayer) {
-
 						SocketPlayer.createSocket();
 						SocketPlayer.sendToSocketPlayer(getStartMessage());
 					}
-
 					System.out.println(namePlayer2 + " is ready!\n");
+					//start the game
 					game.start();
 					gameState = GameStates.RUNNING;
 					System.out.println("BATTLESHIP GAME STARTED\n");

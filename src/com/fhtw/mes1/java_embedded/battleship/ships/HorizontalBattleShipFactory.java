@@ -6,7 +6,15 @@ import com.fhtw.mes1.java_embedded.battleship.lib.BattleShipInstantiationFailed;
 import com.fhtw.mes1.java_embedded.battleship.lib.IBattleShip;
 import com.fhtw.mes1.java_embedded.battleship.lib.IBattleShipFactory;
 
+/**
+ * @author stocki
+ * Factory for horizontal battleships
+ */
 public class HorizontalBattleShipFactory implements IBattleShipFactory {
+
+	/* (non-Javadoc)
+	 * @see com.fhtw.mes1.java_embedded.battleship.lib.IBattleShipFactory#create(java.lang.String[])
+	 */
 
 	@Override
 	public IBattleShip create(String[] initStringElems) throws BattleShipInstantiationFailed {

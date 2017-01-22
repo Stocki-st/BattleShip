@@ -8,6 +8,10 @@ import com.fhtw.mes1.java_embedded.battleship.Coordinate;
 import com.fhtw.mes1.java_embedded.battleship.lib.IBattleShip;
 import com.fhtw.mes1.java_embedded.battleship.lib.ICoordinate;
 
+/**
+ * @author stocki
+ * implementation of square battle ship
+ */
 public class SquareBattleShip implements IBattleShip {
 
 	private String name;
@@ -15,6 +19,11 @@ public class SquareBattleShip implements IBattleShip {
 	private ICoordinate leftUpperCorner;
 	private HashMap<ICoordinate, Boolean> shipMap;
 
+	/**
+	 * @param leftUpper
+	 * @param name
+	 * @param shipLen
+	 */
 	public SquareBattleShip(ICoordinate leftUpper, String name, int shipLen) {
 		this.name = name;
 		this.shipLen = shipLen;
@@ -28,16 +37,25 @@ public class SquareBattleShip implements IBattleShip {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.fhtw.mes1.java_embedded.battleship.lib.IBattleShip#getName()
+	 */
 	@Override
 	public String getName() {
 		return name;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.fhtw.mes1.java_embedded.battleship.lib.IBattleShip#isShipDestroyed()
+	 */
 	@Override
 	public boolean isShipDestroyed() {
 		return shipMap.entrySet().stream().allMatch(entry -> entry.getValue());
 	}
 
+	/* (non-Javadoc)
+	 * @see com.fhtw.mes1.java_embedded.battleship.lib.IBattleShip#isHit(com.fhtw.mes1.java_embedded.battleship.lib.ICoordinate, com.fhtw.mes1.java_embedded.battleship.lib.ICoordinate)
+	 */
 	@Override
 	public boolean isHit(ICoordinate leftUpperCorner, ICoordinate guess) {
 		Optional<Entry<ICoordinate, Boolean>> guessedCoordinate = shipMap.entrySet().stream()
