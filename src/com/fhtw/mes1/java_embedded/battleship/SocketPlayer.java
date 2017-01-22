@@ -7,9 +7,13 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * This class extends the Player class by a SocketPlayer and offers related methods
+ * @author stocki
+ *
+ */
 public class SocketPlayer extends Player {
-
-	private static int DEFAUTL_PORT = 7777;
+	final private static int DEFAUTL_PORT = 7777;
 	private static int port;
 	static ServerSocket serverSocket;
 	static Socket clientSocket;
@@ -17,6 +21,7 @@ public class SocketPlayer extends Player {
 	static BufferedReader clientSocketInput;
 
 	/**
+	 * Constructor
 	 * @param name
 	 * @param battleField
 	 */
@@ -26,6 +31,7 @@ public class SocketPlayer extends Player {
 	}
 
 	/**
+	 * set the port number of the socket
 	 * @param port
 	 */
 	public void setPort(int port) {
@@ -33,12 +39,17 @@ public class SocketPlayer extends Player {
 	}
 
 	/**
+	 * get the port number of the socket
 	 * @return port
 	 */
 	public static int getPort() {
 		return port;
 	}
 
+	/**
+	 * opens the socket connection and waits for client to start the game 
+	 * @throws IOException
+	 */
 	public static void createSocket() throws IOException {
 		// http://docs.oracle.com/javase/tutorial/networking/sockets/clientServer.html
 		serverSocket = new ServerSocket(getPort());
@@ -62,6 +73,9 @@ public class SocketPlayer extends Player {
 		}
 	}
 	
+	/**
+	 * close the socket connection
+	 */
 	public static void closeSocket(){
 	    
 	    if (clientSocket != null)
@@ -79,10 +93,19 @@ public class SocketPlayer extends Player {
 	    }
 	  }
 
+	/**
+	 * sends message to the socket player
+	 * @param msg
+	 */
 	public static void sendToSocketPlayer(String msg) {
 		clientSocketOutput.println(msg);
 	}
 
+	/**
+	 * reads in a message from the socket player
+	 * @return clientSocketInput.readLine()  message from the socket player
+	 * @throws IOException
+	 */
 	public static String readFromSocketPlayer() throws IOException {
 		return clientSocketInput.readLine();
 	}

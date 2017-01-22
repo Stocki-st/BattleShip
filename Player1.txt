@@ -1,2 +1,2 @@
-A3;HorizontalBattleShip;Hubsi;2
-C3;VerticalBattleShip;wulii;2
+C3;HorizontalBattleShip;wulii;2
+C3;VerticalBattleShip;wuli;2

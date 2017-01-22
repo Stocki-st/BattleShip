@@ -25,7 +25,7 @@ public class MyMain {
 		Player player2 = null;
 		Player player = null;
 		try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));) {
-			printStartMessage();
+			System.out.println(getStartMessage() +"\nPlease adapt the ship map files 'Player1.txt' and 'Player2.txt' before you start the game.");
 			while (true) {
 				switch (gameState) {
 				case SETUP:
@@ -56,7 +56,7 @@ public class MyMain {
 							break;
 						} else {
 							System.out.println(
-									"Wrong argument -> Chosse\n    C ... to play in the same Console as Player 1\n    R ... to play in a Remote Console");
+									"Wrong argument -> Choose\n    C ... to play in the same Console as Player 1\n    R ... to play in a Remote Console");
 						}
 					}
 					player2.loadShipMap("Player2.txt");
@@ -65,6 +65,7 @@ public class MyMain {
 					if (player2 instanceof SocketPlayer) {
 
 						SocketPlayer.createSocket();
+						SocketPlayer.sendToSocketPlayer(getStartMessage());
 					}
 
 					System.out.println(namePlayer2 + " is ready!\n");
@@ -116,7 +117,10 @@ public class MyMain {
 								}
 								break;
 							} catch (CoordinateException e) {
-								System.out.println(e.getMessage());
+								if (player instanceof SocketPlayer) {
+									SocketPlayer.sendToSocketPlayer(e.getMessage());
+								} else {
+								System.out.println(e.getMessage());}
 							} catch (NullPointerException e) {
 								System.out
 										.println("Game exit forced with control signal or Remote client closed window");
@@ -133,6 +137,7 @@ public class MyMain {
 							gameState = GameStates.WON;
 							break;
 						}
+						//swap player
 						if (player == player1) {
 							player = player2;
 						} else {
@@ -171,31 +176,49 @@ public class MyMain {
 			}
 			return;
 		}
-		finally{
+		//close socket
+		finally{	
 			if(player2 instanceof SocketPlayer){
 				SocketPlayer.closeSocket();
 			}
 		}
 	}
 
-	private static void printStartMessage() {
-		System.out.println("                    ()");
-		System.out.println("                     ()");
-		System.out.println("                # #  ( )");
-		System.out.println("             ___#_#___|__");
-		System.out.println("          __|____________|  _");
-		System.out.println("   _=====| | |            | | |==== _");
-		System.out.println("   =====| |.---------------------------. | |====");
-		System.out.println("   <--------------------'   .  .  .  .  .  .  .  .   '--------------/");
-		System.out.println("   \\______________________________________________________________/");
-		System.out.println("   \\                                                             /");
-		System.out.println("   \\        BATTLESHIP - by Stefan Stockinger                  /");
-		System.out.println("   \\_________________________________________________________/");
-		System.out.println("   \\_______________________________________________________/");
-		System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
-		System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
-		System.out.println("Welcome to the BattleShip Game");
-		System.out
-				.println("Please adapt the ship map files 'Player1.txt' and 'Player2.txt' before you start the game.");
+/*	private static void printMsgToPlayer(Player player, String msg) {
+		if (player == null) {
+			System.out.println(msg);
+			SocketPlayer.sendToSocketPlayer(msg);
+		} else if (player instanceof SocketPlayer) {
+			SocketPlayer.sendToSocketPlayer(msg);
+		}else {
+			System.out.println(msg);
+		}
+
+	}
+*/
+	
+	/**
+	 * return the start message including ascii art as string
+	 * @return start message as string
+	 */
+	private static String getStartMessage() {
+		StringBuilder msg = new StringBuilder();
+		msg.append("                    ()\n");
+		msg.append("                     ()\n");
+		msg.append("                # #  ( )\n");
+		msg.append("             ___#_#___|__\n");
+		msg.append("          __|____________|  _\n");
+		msg.append("   _=====| | |            | | |==== _\n");
+		msg.append("   =====| |.---------------------------. | |====\n");
+		msg.append("   <--------------------'   .  .  .  .  .  .  .  .   '--------------/\n");
+		msg.append("   \\______________________________________________________________/\n");
+		msg.append("   \\                                                             /\n");
+		msg.append("   \\        BATTLESHIP - by Stefan Stockinger                  /\n");
+		msg.append("   \\_________________________________________________________/\n");
+		msg.append("   \\_______________________________________________________/\n");
+		msg.append("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww\n");
+		msg.append("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww\n");
+		msg.append("\n\nWelcome to the BattleShip Game\n");
+	 return msg.toString();
 	}
 }

@@ -21,11 +21,10 @@ public class SquareBattleShip implements IBattleShip {
 		this.leftUpperCorner = leftUpper;
 		shipMap = new HashMap<ICoordinate, Boolean>();
 
-		for (int y = 0; y < this.shipLen; y++) {
-			shipMap.put(new Coordinate(leftUpperCorner.getXNr(), leftUpperCorner.getYNr() + y), false);
-		}
 		for (int x = 0; x < this.shipLen; x++) {
-			shipMap.put(new Coordinate(leftUpperCorner.getXNr() + x, leftUpperCorner.getYNr()), false);
+			for (int y = 0; y < this.shipLen; y++) {
+				shipMap.put(new Coordinate(leftUpperCorner.getXNr() + x, leftUpperCorner.getYNr() + y), false);
+			}
 		}
 	}
 

@@ -17,8 +17,9 @@ public class RectBattleShipFactory implements IBattleShipFactory {
 			throw new BattleShipInstantiationFailed(
 					"Coordinates of '" + initStringElems[2] + "' are wrong: " + e.getMessage());
 		} catch (NumberFormatException e) {
-			throw new BattleShipInstantiationFailed("Please check the length of your ship '" + initStringElems[2]);
+			throw new BattleShipInstantiationFailed("Please check the length of your ship '" + initStringElems[2] + "'");
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new BattleShipInstantiationFailed("There is a parameter missing for your ship '" + initStringElems[2] + "'");
 		}
-		//TODO: catch if initStringElems[4] is missing
 	}
 }

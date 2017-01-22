@@ -5,28 +5,34 @@ import com.fhtw.mes1.java_embedded.battleship.Exceptions.BattleShipGameException
 import com.fhtw.mes1.java_embedded.battleship.Exceptions.CoordinateException;
 import com.fhtw.mes1.java_embedded.battleship.lib.ICoordinate;
 
+/**
+ * This class implements the game and the game related methods
+ * @author stocki
+ *
+ */
 public class Game {
-
 	private Player Player1;
 	private Player Player2;
 	private final static int FIELD_SIZE_X = 10;
 	private final static int FIELD_SIZE_Y = 10;
-
+	
 	private int fieldSizeX;
 	private int fieldSizeY;
 	boolean gameFinished;
-
 	enum MapFieldType {
 		NOTTRIED, FAILED, HIT
 	}
 
-
+	/**
+	 * Constructor
+	 */
 	public Game() {
 		this.setFieldSizeX(FIELD_SIZE_X);
 		this.setFieldSizeY(FIELD_SIZE_Y);
 	}
 
 	/**
+	 * get size of battlefield in X direction
 	 * @return fieldSizeX
 	 */
 	public int getFieldSizeX() {
@@ -34,6 +40,7 @@ public class Game {
 	}
 
 	/**
+	 * set size of battlefield in X direction
 	 * @param fieldSizeX
 	 */
 	public void setFieldSizeX(int fieldSizeX) {
@@ -41,6 +48,7 @@ public class Game {
 	}
 
 	/**
+	 * get size of battlefield in Y direction
 	 * @return fieldSizeY
 	 */
 	public int getFieldSizeY() {
@@ -48,6 +56,7 @@ public class Game {
 	}
 
 	/**
+	 * set size of battlefield in Y direction
 	 * @param fieldSizeY
 	 */
 	public void setFieldSizeY(int fieldSizeY) {
@@ -55,6 +64,7 @@ public class Game {
 	}
 
 	/**
+	 * set name of Player 2
 	 * @param player
 	 */
 	public void setPlayer1(Player player) {
@@ -62,6 +72,7 @@ public class Game {
 	}
 
 	/**
+	 * set name of Player 2
 	 * @param player
 	 */
 	public void setPlayer2(Player player) {
@@ -69,6 +80,7 @@ public class Game {
 	}
 
 	/**
+	 * get name of Player 1
 	 * @return Player1
 	 */
 	public Player getPlayer1() {
@@ -76,6 +88,7 @@ public class Game {
 	}
 
 	/**
+	 * get name of Player 2
 	 * @return Player2
 	 */
 	public Player getPlayer2() {
@@ -84,6 +97,7 @@ public class Game {
 
 
 	/**
+	 * starts the battleship game
 	 * @throws BattleShipGameException
 	 */
 	public void start() throws BattleShipGameException {
@@ -92,9 +106,9 @@ public class Game {
 		}
 		HashMap<ICoordinate, MapFieldType> mapPlayer1 = new HashMap<ICoordinate, MapFieldType>();
 		HashMap<ICoordinate, MapFieldType> mapPlayer2 = new HashMap<ICoordinate, MapFieldType>();
-
+		//initialise player maps
 		for (int i = 1; i <= fieldSizeX; i++) {
-			for (int j = 1; j <= fieldSizeX; j++) {
+			for (int j = 1; j <= fieldSizeY; j++) {
 				mapPlayer1.put(new Coordinate(i, j), MapFieldType.NOTTRIED);
 				mapPlayer2.put(new Coordinate(i, j), MapFieldType.NOTTRIED);
 			}
@@ -105,6 +119,7 @@ public class Game {
 	}
 
 	/**
+	 * checks if the guessed coordinate was a hit
 	 * @param player
 	 * @param guess
 	 * @return true, if it is a hit - false, if not
@@ -124,13 +139,14 @@ public class Game {
 	}
 
 	/**
-	 *  
+	 * sets gameFinished true 
 	 */
 	public void setGameFinished() {
 		gameFinished = true;
 	}
 
 	/**
+	 * delivers the name of the winner
 	 * @return name of winner
 	 */
 	public String getWinnerName() {

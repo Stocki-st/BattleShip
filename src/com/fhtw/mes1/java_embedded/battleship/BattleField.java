@@ -6,13 +6,18 @@ import com.fhtw.mes1.java_embedded.battleship.Exceptions.AddShipException;
 import com.fhtw.mes1.java_embedded.battleship.lib.IBattleShip;
 import com.fhtw.mes1.java_embedded.battleship.lib.ICoordinate;
 
+/**
+ * This class defines a battlefield and provides methods to set the size of the battlefield, add ships, check if all ships are destroyed, ...
+ * @author stocki
+ *
+ */
 public class BattleField {
-
 	private List<BattleShips> shipList;
 	private int fieldSizeX;
 	private int fieldSizeY;
 
 	/**
+	 * Constructor
 	 * @param fieldSizeX
 	 * @param fieldSizeY
 	 */
@@ -23,13 +28,39 @@ public class BattleField {
 	}
 
 	/**
+	 * adds a new ship to the shipList
+	 * @param leftUpperCorner
+	 * @param ship
+	 * @throws AddShipException
+	 */
+	public void addShip(ICoordinate leftUpperCorner, IBattleShip ship) throws AddShipException {
+		BattleShips newShip = new BattleShips(leftUpperCorner, ship);
+		//check if a ship is on this coordinate
+		if (shipList.stream().anyMatch(entry -> entry.leftUpperCorner.getXNr() == newShip.leftUpperCorner.getXNr()
+				&& entry.leftUpperCorner.getYNr() == newShip.leftUpperCorner.getYNr())) {
+			throw new AddShipException("There is already a Ship where you wanted to place " + ship.getName());
+		}
+		shipList.add(newShip);
+	}
+
+	/**
+	 * check if all ships are destroyed
+	 * @return true if all battle ships are destroyed, false if not
+	 */
+	public boolean allShipsDestroyed() {
+		return shipList.stream().allMatch(entry -> entry.ship.isShipDestroyed());
+	}
+
+	/**
+	 * get the size of the battlefield in X direction
 	 * @return fieldSizeX
 	 */
 	public int getBattleFieldSizeX() {
 		return fieldSizeX;
 	}
 
-	/**
+	/** 
+	 * get the size of the battlefield in Y direction
 	 * @return fieldSizeY
 	 */
 	public int getBattleFieldSizeY() {
@@ -37,6 +68,16 @@ public class BattleField {
 	}
 
 	/**
+	 * checks if a battleship was hit on the guessed coordinate
+	 * @param guess coordinate where a ship is supposed
+	 * @return true if a battle ship was hit, false if not
+	 */
+	public boolean isHitAnyBattleShip(ICoordinate guess) {
+		return shipList.stream().anyMatch(entry -> entry.ship.isHit(entry.leftUpperCorner, guess));
+	}
+
+	/**
+	 * set the size of the battlefield in X direction
 	 * @param sizeX
 	 */
 	public void setBattleFieldSizeX(int sizeX) {
@@ -44,45 +85,16 @@ public class BattleField {
 	}
 
 	/**
+	 * set the size of the battlefield in Y direction
 	 * @param sizeY
 	 */
 	public void setBattleFieldSizeY(int sizeY) {
 		this.fieldSizeY = sizeY;
 	}
-
+	
 	/**
-	 * @param leftUpperCorner
-	 * @param ship
-	 * @throws AddShipException
+	 * defines the objects in the shipList look like
 	 */
-	public void addShip(ICoordinate leftUpperCorner, IBattleShip ship) throws AddShipException {
-		BattleShips newShip = new BattleShips(leftUpperCorner, ship);
-		
-		//check if a ship is on this coordinate
-		if (shipList.stream().anyMatch(entry -> entry.leftUpperCorner.getXNr() == newShip.leftUpperCorner.getXNr()
-				&& entry.leftUpperCorner.getYNr() == newShip.leftUpperCorner.getYNr())) {
-			throw new AddShipException("There is already a Ship where you wanted to place" + ship.getName());
-		}
-		shipList.add(newShip);
-	}
-
-	/**
-
-	 * @param guess
-	 * @return true if a battle ship is hit, false if not
-	 */
-	public boolean isHitAnyBattleShip(ICoordinate guess) {
-		return shipList.stream().anyMatch(entry -> entry.ship.isHit(entry.leftUpperCorner, guess));
-	}
-
-
-	/**
-	 * @return true if all battle ships are destroyed, false if not
-	 */
-	public boolean allShipsDestroyed() {
-		return shipList.stream().allMatch(entry -> entry.ship.isShipDestroyed());
-	}
-
 	private final class BattleShips {
 		private IBattleShip ship;
 		private ICoordinate leftUpperCorner;
@@ -92,5 +104,4 @@ public class BattleField {
 			this.leftUpperCorner = leftUpperCorner;
 		}
 	}
-
 }

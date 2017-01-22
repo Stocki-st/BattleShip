@@ -16,18 +16,18 @@ public class LBattleShip implements IBattleShip {
 	private ICoordinate leftUpperCorner;
 	private HashMap<ICoordinate, Boolean> shipMap;
 
-	public LBattleShip(ICoordinate leftUpper, String name, int shipLenX, int shipLenY) {
+	public LBattleShip(ICoordinate leftUpper, String name, int shipLenY, int shipLenX) {
 		this.name = name;
 		this.shipLenX = shipLenX;
 		this.shipLenY = shipLenY;
 		this.leftUpperCorner = leftUpper;
 		shipMap = new HashMap<ICoordinate, Boolean>();
 
-		for (int x = 0; x < this.shipLenX; x++) {
-			shipMap.put(new Coordinate(leftUpperCorner.getXNr() + x, leftUpperCorner.getYNr()), false);
-		}
 		for (int y = 0; y < this.shipLenY; y++) {
-			shipMap.put(new Coordinate(leftUpperCorner.getXNr() + this.shipLenX, leftUpperCorner.getYNr() + y), false);
+			shipMap.put(new Coordinate(leftUpperCorner.getXNr(), leftUpperCorner.getYNr() + y), false);
+		}
+		for (int x = 1; x < this.shipLenX; x++) {
+			shipMap.put(new Coordinate(leftUpperCorner.getXNr() + x, leftUpperCorner.getYNr()+shipLenY-1), false);
 		}
 	}
 

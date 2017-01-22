@@ -18,6 +18,8 @@ public class LBattleShipFactory implements IBattleShipFactory {
 					"Coordinates of '" + initStringElems[2] + "' are wrong: " + e.getMessage());
 		} catch (NumberFormatException e) {
 			throw new BattleShipInstantiationFailed("Please check the length of your ship '" + initStringElems[2]);
+		}catch (ArrayIndexOutOfBoundsException e) {
+			throw new BattleShipInstantiationFailed("There is a parameter missing for your ship '" + initStringElems[2] + "'");
 		}
 	}
 }

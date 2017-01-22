@@ -14,14 +14,19 @@ import com.fhtw.mes1.java_embedded.battleship.lib.BattleShipInstantiationFailed;
 import com.fhtw.mes1.java_embedded.battleship.lib.IBattleShip;
 import com.fhtw.mes1.java_embedded.battleship.lib.ICoordinate;
 
+/**
+ * This defines the Player Object
+ * @author stocki
+ *
+ */
 public abstract class Player {
-
 	private String name;
 	private BattleField battleField;
 	private boolean hasWon;
 	private HashMap<ICoordinate, MapFieldType> playerMap;
 
 	/**
+	 * Constructor
 	 * @param name
 	 * @param battleField
 	 */
@@ -32,6 +37,7 @@ public abstract class Player {
 	}
 
 	/**
+	 * get the name of the player
 	 * @return name
 	 */
 	public String getName() {
@@ -39,6 +45,7 @@ public abstract class Player {
 	}
 
 	/**
+	 * get the battlefield of the player 
 	 * @return battleField
 	 */
 	public BattleField getBattleField() {
@@ -46,6 +53,7 @@ public abstract class Player {
 	}
 
 	/**
+	 * loads the shipmap and adds all the ships to the battlefield
 	 * @param fileName
 	 * @throws AddBattleFieldException
 	 */
@@ -54,8 +62,10 @@ public abstract class Player {
 			String line = br.readLine();
 			do {
 				String[] lineSegments = line.split(";");
+				//create battleship
 				IBattleShip battleShip = new BattleShipFactoryProducer().createBattleShipFactory(lineSegments).create(lineSegments);
 				Coordinate coordinateLeftUpperCorner = new Coordinate(lineSegments[0]); // leftUpperCorner
+				//add ship to the battlefield
 				battleField.addShip(coordinateLeftUpperCorner, battleShip);
 			} while ((line = br.readLine()) != null);
 		} catch (IOException e) {
@@ -72,13 +82,14 @@ public abstract class Player {
 	}
 
 	/**
-	 * 
+	 * sets hasWon true
 	 */
 	public void setHasWon() {
 		hasWon = true;
 	}
 
 	/**
+	 * get the value of hasWon
 	 * @return hasWon
 	 */
 	public boolean getHasWon() {
@@ -86,6 +97,7 @@ public abstract class Player {
 	}
 
 	/**
+	 * get the playerMap
 	 * @return playerMap
 	 */
 	public HashMap<ICoordinate, MapFieldType> getPlayerMap() {
@@ -93,6 +105,7 @@ public abstract class Player {
 	}
 
 	/**
+	 * set the playerMap
 	 * @param playerMap
 	 */
 	public void setPlayerMap(HashMap<ICoordinate, MapFieldType> playerMap) {
@@ -100,6 +113,7 @@ public abstract class Player {
 	}
 
 	/**
+	 * proceed a guess and set the guessed field of the map to the appropriate type (hit or failed)
 	 * @param guess
 	 * @return true, if hit - false, if not hit
 	 */
@@ -117,6 +131,7 @@ public abstract class Player {
 	}
 
 	/**
+	 * converts the battlefield map to a String
 	 * @return battleFieldMap as String
 	 */
 	public String battlefieldMapToString() {

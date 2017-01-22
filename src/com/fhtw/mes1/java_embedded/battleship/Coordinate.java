@@ -3,12 +3,17 @@ package com.fhtw.mes1.java_embedded.battleship;
 import com.fhtw.mes1.java_embedded.battleship.Exceptions.CoordinateException;
 import com.fhtw.mes1.java_embedded.battleship.lib.ICoordinate;
 
+/**
+ * This class implements Coordinate as defined in the Interface ICoordinate
+ * @author stocki
+ *
+ */
 public class Coordinate implements ICoordinate {
-
 	int xCoordinate;
 	int yCoordinate;
 
 	/**
+	 * Constructor
 	 * @param x
 	 * @param y
 	 */
@@ -18,6 +23,7 @@ public class Coordinate implements ICoordinate {
 	}
 
 	/**
+	 * Constructor
 	 * @param coordinate
 	 * @throws CoordinateException
 	 */
@@ -25,18 +31,19 @@ public class Coordinate implements ICoordinate {
 		if (coordinate.length() == 2) {
 			char x = coordinate.charAt(0);
 			char y = coordinate.charAt(1);
+			// check if values are in range
 			if ((x - 'A') < 0) {
 				throw new CoordinateException("wrong X value");
 			}else if ((y - '0') < 0) {
 				throw new CoordinateException("wrong Y value");
 			}else{
+			//convert ASCII to numerical
 			xCoordinate = x - 'A' + 1;
 			yCoordinate = y - '0' + 1;
 			}
 		} else {
 			throw new CoordinateException("Wrong Coordinate length");
 		}
-
 	}
 
 	/* (non-Javadoc)
